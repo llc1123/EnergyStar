@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -19,5 +19,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Publish
-      run: dotnet publish -c Release -o release
+    - name: Publish for win-x64
+      run: dotnet publish -c ReleaseInvisible -r win-x64 -p:PublishSingleFile=true --self-contained true
+    - name: Publish for win-arm64
+      run: dotnet publish -c ReleaseInvisible -r win-arm64 -p:PublishSingleFile=true --self-contained true
